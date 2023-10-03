@@ -31,27 +31,66 @@ public:
 
         /*Iterative*/
 
+    // vector<int> postorderTraversal(TreeNode* root){
+    //     vector<int> ans;
+    //     if(root == NULL)
+    //         return ans;
+    //     stack<TreeNode*> st1, st2;
+    //     TreeNode* node = root;
+    //     st1.push(node);
+    //     while(st1.empty()==false)
+    //     {
+    //         node = st1.top();
+    //         st1.pop();
+    //         st2.push(node);
+    //         if(node->left != NULL)
+    //             st1.push(node->left);
+    //         if(node->right != NULL)
+    //             st1.push(node->right);
+    //     }
+    //     while(st2.empty()==false)
+    //     {
+    //         ans.push_back(st2.top()->val);
+    //         st2.pop();
+    //     }
+    //     return ans;
+    // }
+
+        /*using only 1 stack*/
+
     vector<int> postorderTraversal(TreeNode* root){
         vector<int> ans;
         if(root == NULL)
             return ans;
-        stack<TreeNode*> st1, st2;
-        TreeNode* node = root;
-        st1.push(node);
-        while(st1.empty()==false)
+        TreeNode* curr=root;
+        stack<TreeNode*> st;
+        while(curr != NULL || !st.empty())
         {
-            node = st1.top();
-            st1.pop();
-            st2.push(node);
-            if(node->left != NULL)
-                st1.push(node->left);
-            if(node->right != NULL)
-                st1.push(node->right);
-        }
-        while(st2.empty()==false)
-        {
-            ans.push_back(st2.top()->val);
-            st2.pop();
+            if(curr != NULL)
+            {
+                st.push(curr);
+                curr = curr->left;
+            }
+            else
+            {
+                TreeNode* temp = st.top()->right;
+                if(temp == NULL)
+                {
+                    temp = st.top();
+                    st.pop();
+                    ans.push_back(temp->val);
+                    while(!st.empty() && temp==st.top()->right)
+                    {
+                        temp=st.top();
+                        st.pop();
+                        ans.push_back(temp->val);
+                    }
+                }
+                else
+                {
+                    curr = temp;
+                }
+            }
         }
         return ans;
     }
