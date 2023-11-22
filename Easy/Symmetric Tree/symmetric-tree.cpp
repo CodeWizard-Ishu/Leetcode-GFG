@@ -102,7 +102,7 @@ struct Node {
 class Solution{
     public:
     // return true/false denoting whether the tree is Symmetric or not
-    bool solve(Node* p, Node* q)
+	bool solve(Node* p, Node* q)
     {
 	    // Code here
 	     if(!p and !q){
