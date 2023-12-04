@@ -1,12 +1,19 @@
 class Solution {
 public:
     string largestGoodInteger(string num) {
-        int result = -1;
-        for (int i = 0; i + 2 < num.length(); i++) {
-            if (num[i] == num[i + 1] && num[i] == num[i + 2]) {
-                result = std::max(result, num[i] - '0');
-            }
+        int n = num.length();
+
+        char maxChar = ' ';
+        for(int i=2; i<n; i++)
+        {
+            if(num[i]==num[i-1] && num[i]==num[i-2])
+                maxChar = max(maxChar, num[i]);
         }
-        return (result == -1) ? "" : std::string(3, '0' + result);
+
+        if(maxChar == ' ')
+            return "";
+
+        else
+            return string(3, maxChar);
     }
 };
