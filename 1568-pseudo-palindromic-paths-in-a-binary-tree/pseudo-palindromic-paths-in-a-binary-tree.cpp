@@ -11,11 +11,32 @@
  */
 class Solution {
 public:
-        int pseudoPalindromicPaths(TreeNode* root, int count = 0) {
-        if (!root) return 0;
-        count ^= 1 << (root->val - 1);
-        int res = pseudoPalindromicPaths(root->left, count) + pseudoPalindromicPaths(root->right, count);
-        if (root->left == root->right && (count & (count - 1)) == 0) res++;
-        return res;
+    int ans = 0;
+    void solve(TreeNode* root, unordered_map<int, int> &mp)
+    {
+        if(root==NULL)
+            return;
+        mp[root->val]++;
+        if(root->left == NULL && root->right == NULL)
+        {
+            int count = 0;
+            for(auto it : mp)
+            {
+                if(it.second%2 == 1)
+                    count++;
+            }
+            if(count<=1)
+                ans++;
+        }
+        solve(root->left, mp);
+        solve(root->right, mp);
+        mp[root->val]--;
+        if(mp[root->val] == 0)
+            mp.erase(root->val);
+    }
+    int pseudoPalindromicPaths (TreeNode* root) {
+        unordered_map<int, int> mp;
+        solve(root, mp);
+        return ans;
     }
 };
